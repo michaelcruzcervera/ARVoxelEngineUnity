@@ -16,7 +16,7 @@ public static class SDF
         Vector3 vec = new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
         float density = worldPosition.y - 6.0f;
 
-        density += Noise(worldPosition, 0.1f, 7f);
+        density += Noise(worldPosition, 0.05f, 5f);
 
         return density;
     }
@@ -37,12 +37,12 @@ public static class SDF
 
     public static float Density_Func(Vector3 worldPosition)
     {
-        float sphere = Sphere(worldPosition, new Vector3(0,0,0), 5);
+        float sphere = Sphere(worldPosition, new Vector3(0,0,0), 16);
         float terrain = Terrain(worldPosition);
-        float noise = Noise(worldPosition, 0.09f, 100f);
+        float noise = Noise(worldPosition, 0.1f, 5f);
         float box = Box(worldPosition, new float3(5,5,5));
 
-        return terrain;
+        return noise;
     }
     public static float Density_Func(float x, float y, float z)
     {

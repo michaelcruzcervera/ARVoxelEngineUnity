@@ -90,12 +90,12 @@ public class GenerateGrid : MonoBehaviour
             for (int j = 0; j < 8; j++)
             {
                 Vector3 n = (new Vector3(id.x-(_chunkSize / _resolution)/2, id.y- (_chunkSize / _resolution)/2, id.z- (_chunkSize / _resolution)/2))+((Vector3)(float3)LookupTables.CubeCorners[j]*(_chunkSize/_resolution));
-                Gizmos.DrawSphere(transform + n, 0.05f);
+                //Gizmos.DrawSphere(transform + n, 0.05f);
             }
             
             Gizmos.color = gizmoColour;
 
-            Gizmos.DrawSphere(transform+id, 0.1f);
+            //Gizmos.DrawSphere(transform+id, 0.1f);
             Gizmos.DrawWireCube(transform+id,new Vector3(_chunkSize/_resolution, _chunkSize / _resolution, _chunkSize / _resolution));
             //Gizmos.DrawWireCube(transform + id, new Vector3(1, 1, 1)*(chunkSize/resolution));
         }

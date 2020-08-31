@@ -25,9 +25,11 @@ public class WorldManager : MonoBehaviour
     public int chunkResolution = 16;
 
     [SerializeField]
-    private Material mat = null;
+    private Material material = null;
 
-    public bool LOD = false;
+    public bool useLOD = false;
+
+    public Transform test;
 
     public bool showBoundsGizmo;
     public Color boundsGizmoCol = Color.grey;
@@ -63,7 +65,7 @@ public class WorldManager : MonoBehaviour
             Debug.Log("Error: Incompatible Octree Parameters");
         }
     }
-
+   
     public void StartMeshing()
     {
         aRSessionOrigin = FindObjectOfType<ARSessionOrigin>();
@@ -88,7 +90,11 @@ public class WorldManager : MonoBehaviour
             
             InstantiateWorldOctree(worldSize, worldPosition, minChunkSize);
 
-            voxelEditor.worldManager = this;
+            if (voxelEditor != null)
+            {
+                voxelEditor.worldManager = this;
+            }
+
             leafs = new List<Chunk>();
 
             SubdivideChunks(world.root);
@@ -119,6 +125,11 @@ public class WorldManager : MonoBehaviour
         if (world != null)
         {
             world = null;
+            GameObject[] chunks = GameObject.FindGameObjectsWithTag("Terrain");
+            for (int i = 0; i < chunks.Length; i++)
+            {
+                Destroy(chunks[i]);
+            }
         }
     }
 
@@ -136,7 +147,7 @@ public class WorldManager : MonoBehaviour
             modified = false;
         }
 
-        if (LOD)
+        if (useLOD)
         {
             if (world != null)
             {
@@ -147,7 +158,7 @@ public class WorldManager : MonoBehaviour
 
     void SubdivideChunks(ChunkOctreeNode<Chunk> node)
     {
-        if (LOD)
+        if (useLOD)
         {
             Chunk[] oldChunks = new Chunk[10];
 
@@ -244,14 +255,28 @@ public class WorldManager : MonoBehaviour
         Chunk newChunk = chunk.AddComponent<Chunk>();
 
         chunk.transform.parent = gameObject.transform;
+        newChunk.index = IndexUtils.int3ToIndex((int)coord.x, (int)coord.y, (int)coord.z, worldSize / minChunkSize);
         chunk.tag = "Terrain";
         newChunk.position =coord;
         newChunk.size = size;
         newChunk.resolution = res;
-        newChunk.mat = mat;
+        newChunk.mat = material;
         newChunk.Initialise();
         return newChunk;
 
+    }
+
+    public void SetWorldMaterial(Material mat)
+    {
+        material = mat;
+        if(leafs != null)
+        {
+            for(int i =0; i < leafs.Count; i++)
+            {
+                leafs[i].mat = mat;
+                leafs[i].gameObject.GetComponent<MeshRenderer>().material = mat;
+            }
+        }
     }
 
     public void IncreaseDensity(int3 globalPos, float deform)
@@ -264,10 +289,10 @@ public class WorldManager : MonoBehaviour
             if (chunk.Contains(globalPos))
             {
 
-                int3 pos = (int3) chunk.position;
-
-                int3 localPos = (globalPos - pos + (chunk.size / 2)) / (chunk.size/chunk.resolution);
-
+                int3 pos = (int3) math.floor(chunk.position);
+    
+                //int3 localPos = (globalPos - pos + (chunk.size / 2))/ ((chunk.size/chunk.resolution));
+                int3 localPos =(((globalPos - pos +(chunk.size/2))) % (chunk.resolution + 1) + (chunk.resolution +1))% (chunk.resolution+1);
 
                 chunk.IncreaseDensity(localPos, deform);
 
@@ -279,8 +304,32 @@ public class WorldManager : MonoBehaviour
         }
     }
 
+    public void ToggleLOD()
+    {
+        if (useLOD)
+        {
+            useLOD = false;
+        }
+        else
+        {
+            useLOD = true;
+        }
+    }
+
     private void OnDrawGizmos()
     {
+        if (leafs != null)
+        {
+            for (int i = 0; i < leafs.Count; i++)
+            {
+                if (leafs[i].Contains(transform.position))
+                {
+                    //Debug.Log(leafs[i].index + " : " + leafs[i].Contains(transform.position));
+                }
+
+            }
+
+        }
         Gizmos.color = boundsGizmoCol;
         if (world != null && showBoundsGizmo)
         {

@@ -21,7 +21,9 @@ public class Chunk : MonoBehaviour
     [SerializeField]
     public bool modified { get; set; }
 
+    [SerializeField]
     public int size { get; set; }
+    [SerializeField]
     public int resolution { get; set; }
     public float3 position { get; set; }
 
@@ -136,18 +138,22 @@ public class Chunk : MonoBehaviour
     public void IncreaseDensity(int3 localPos, float deform)
     {
         int index = IndexUtils.int3ToIndex(localPos.x, localPos.y, localPos.z, resolution+1);
-        densities[index] = math.clamp(densities[index] + deform, -1, 1);
+        if (index >= 0 && index < densities.Length)
+        {
+            densities[index] = math.clamp(densities[index] + deform, -1, 1);
 
-        modified = true;
+            modified = true;
+        }
+       
     }
 
     public bool Contains(float3 point)
     {
-        if (point.x <= position.x + (size/2) && point.x >= position.x - (size/ 2))
+        if (point.x <= position.x + (size/2) && point.x >= position.x - (size/ 2)-1 )
         {
-            if (point.y <= position.y + (size/2) && point.y >= position.y - (size/ 2))
+            if (point.y <= position.y + (size/2) && point.y >= position.y - (size/ 2)-1 )
             {
-                if (point.z <= position.z + (size/2) && point.z >= position.z - (size/ 2))
+                if (point.z <= position.z + (size/2) && point.z >= position.z - (size/ 2)-1)
                 {
                     return true;
                 }
@@ -157,5 +163,9 @@ public class Chunk : MonoBehaviour
         return false;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(position, 1);
+    }
     //export
 }

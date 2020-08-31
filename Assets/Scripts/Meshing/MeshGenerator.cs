@@ -14,6 +14,8 @@ public class MeshGenerator : MonoBehaviour
     public List<MeshVertex> vertices = new List<MeshVertex>();
     public List<int> triangles = new List<int>();
 
+    private int numberOfTests = 10;
+
     private void Awake()
     {
         algorithms = GetComponents<IMeshExtraction>();
@@ -23,19 +25,21 @@ public class MeshGenerator : MonoBehaviour
     {
         if (algorithms[algIndex] != null)
         {
-
-            Stopwatch stopwatch = new Stopwatch();
-
             /*
-            for (int repeat = 0; repeat < 1; ++repeat)
+            Stopwatch stopwatch = new Stopwatch();
+            float sum = 0;
+            
+            for (int repeat = 0; repeat < numberOfTests; ++repeat)
             {
                 stopwatch.Reset();
                 stopwatch.Start();
                 algorithms[algIndex].MeshGeneration(chunk, vertices, triangles);
                 stopwatch.Stop();
-                //UnityEngine.Debug.Log("Ticks: " + stopwatch.ElapsedTicks + " mS: " + stopwatch.ElapsedMilliseconds);
-            }*/
-
+                sum += stopwatch.ElapsedMilliseconds;
+            }
+            
+            UnityEngine.Debug.Log("avg: " + sum/numberOfTests);
+            */
             algorithms[algIndex].MeshGeneration(chunk, vertices, triangles);
 
             CompleteMeshGeneration(chunk, vertices, triangles);

@@ -32,6 +32,9 @@ public class PointCloudManager : MonoBehaviour
     [SerializeField]
     private float radiusSDF = 5f;
 
+    ARPlaneManager aRPlaneManager;
+
+    AROcclusionManager aROcclusionManager;
 
 
     // Start is called before the first frame update
@@ -40,10 +43,14 @@ public class PointCloudManager : MonoBehaviour
         pointCloudVisualiser = GetComponent<PointCloudVisualiser>();
         pointCloudListener = GetComponent<PointCloudListener>();
 
+        aRPlaneManager = FindObjectOfType<ARPlaneManager>();
+        aROcclusionManager = FindObjectOfType<AROcclusionManager>();
+
         if (loadAtStart)
         {
             LoadPointCloud();
         }
+
     }
 
     public void LoadPointCloud()
@@ -52,7 +59,8 @@ public class PointCloudManager : MonoBehaviour
 
         if (fromFile)
         {
-            pointCloud = PointCloudFile.DeserializeData("bunny", 100);
+            pointCloud = PointCloudFile.DeserializeData("bunny", 200);
+
         }
         else
         {
@@ -84,6 +92,24 @@ public class PointCloudManager : MonoBehaviour
         float size = math.distance(bounds.Max, bounds.Min);
         knnContainer.Dispose();
         return (int) math.round(size);
+    }
+
+    public void ClearPoints()
+    {
+        if (pointCloud != null)
+        {
+            pointCloud = null;
+        }
+        
+        if (pointsNA.IsCreated)
+        {
+            pointsNA.Dispose();
+        }
+        if (pointCloudVisualiser != null)
+        {
+            pointCloudVisualiser.Clear();
+        }
+       
     }
 
     public float3 GetPointCloudCentre()
@@ -140,7 +166,42 @@ public class PointCloudManager : MonoBehaviour
 
         return null;
     }
-    
+
+    public void EstimatePlanes()
+    {
+        if (pointsNA != null && pointsNA.Length >= 0)
+        {
+            int k = 6;
+
+            var queryPositions = new NativeArray<float3>(pointCloud.Length, Allocator.TempJob);
+
+            var results = new NativeArray<int>(pointCloud.Length*6, Allocator.TempJob);
+
+            for (int i = 0; i < queryPositions.Length; ++i)
+            {
+                queryPositions[i] = pointCloud[i];
+            }
+
+            KnnContainer knnContainer = new KnnContainer(pointsNA, true, Allocator.TempJob);
+
+            var batchQueryJob = new QueryKNearestBatchJob(knnContainer, queryPositions, results);
+
+            batchQueryJob.ScheduleBatch(pointCloud.Length, pointCloud.Length / 32).Complete();
+
+
+            knnContainer.Dispose();
+            results.Dispose();
+            queryPositions.Dispose();
+
+        }
+        else
+        {
+            Debug.Log("Error: Points must be >=0");
+
+        }
+
+    }
+
     private (float3, float3) PlaneFitting(int[] pointIndexes)
     {
         float3 sum = float3.zero;
@@ -200,7 +261,34 @@ public class PointCloudManager : MonoBehaviour
         }
 
     }
-   
+
+    public void TogglePlanarOcclusion()
+    {
+        if (aRPlaneManager.isActiveAndEnabled)
+        {
+            aRPlaneManager.SetTrackablesActive(false);
+            aRPlaneManager.enabled = false;
+        }
+        else
+        {
+            aRPlaneManager.SetTrackablesActive(true);
+            aRPlaneManager.enabled = true;
+        }
+    }
+
+    public void ToggleDepthOcclusion()
+    {
+        if (aROcclusionManager.isActiveAndEnabled)
+        {
+
+            aROcclusionManager.enabled = false;
+        }
+        else
+        {
+            aROcclusionManager.enabled = true;
+        }
+    }
+
     private void OnDrawGizmos()
     {
         /*

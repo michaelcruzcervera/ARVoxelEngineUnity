@@ -46,6 +46,13 @@ public sealed class PointCloudVisualiser : MonoBehaviour
         m_NumParticles = numParticles;
     }
 
+    public void Clear()
+    {
+        s_Vertices.Clear();
+        m_Particles = new ParticleSystem.Particle[0];
+        m_ParticleSystem.SetParticles(m_Particles,0);
+    }
+
     void Awake()
     {
         m_ParticleSystem = GetComponent<ParticleSystem>();
