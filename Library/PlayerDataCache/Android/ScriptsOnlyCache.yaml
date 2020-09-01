@@ -36,8 +36,6 @@ ScriptsOnlyBuild:
     - UnityEngine.XR.ARFoundation.ARPointCloudParticleVisualizer
     - UnityEngine.XR.ARFoundation.ARSession
     - UnityEngine.XR.ARFoundation.ARSessionOrigin
-    Unity.XR.ARKit.Editor.dll:
-    - UnityEditor.XR.ARKit.ARKitSettings
     Unity.XR.Management.Editor.dll:
     - UnityEditor.XR.Management.XRGeneralSettingsPerBuildTarget
     Unity.XR.Management.dll:
@@ -96,95 +94,95 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11778}
+      Script: {instanceID: 11782}
     - Class: 114
-      Script: {instanceID: 11804}
+      Script: {instanceID: 11810}
     - Class: 114
-      Script: {instanceID: 11976}
+      Script: {instanceID: 11986}
     - Class: 114
-      Script: {instanceID: 12044}
+      Script: {instanceID: 12054}
     - Class: 114
-      Script: {instanceID: 12076}
+      Script: {instanceID: 12088}
     - Class: 114
-      Script: {instanceID: 12160}
+      Script: {instanceID: 12172}
     - Class: 114
-      Script: {instanceID: 12186}
+      Script: {instanceID: 12198}
     - Class: 114
-      Script: {instanceID: 12210}
+      Script: {instanceID: 12224}
     - Class: 114
-      Script: {instanceID: 12284}
+      Script: {instanceID: 12298}
     - Class: 114
-      Script: {instanceID: 12498}
+      Script: {instanceID: 12512}
     - Class: 114
-      Script: {instanceID: 12528}
+      Script: {instanceID: 12542}
     - Class: 114
-      Script: {instanceID: 12576}
+      Script: {instanceID: 12592}
     - Class: 114
-      Script: {instanceID: 12656}
+      Script: {instanceID: 12672}
     - Class: 114
-      Script: {instanceID: 12706}
+      Script: {instanceID: 12722}
     - Class: 114
-      Script: {instanceID: 12864}
+      Script: {instanceID: 12878}
     - Class: 114
-      Script: {instanceID: 12886}
+      Script: {instanceID: 12900}
     - Class: 114
-      Script: {instanceID: 12916}
+      Script: {instanceID: 12930}
     - Class: 114
-      Script: {instanceID: 12982}
+      Script: {instanceID: 12996}
     - Class: 114
-      Script: {instanceID: 13150}
+      Script: {instanceID: 13164}
     - Class: 114
-      Script: {instanceID: 13172}
+      Script: {instanceID: 13186}
     - Class: 114
-      Script: {instanceID: 13238}
+      Script: {instanceID: 13252}
     - Class: 114
-      Script: {instanceID: 13380}
+      Script: {instanceID: 13396}
     - Class: 114
-      Script: {instanceID: 13452}
+      Script: {instanceID: 13468}
     - Class: 114
-      Script: {instanceID: 13494}
+      Script: {instanceID: 13510}
     - Class: 114
-      Script: {instanceID: 13546}
+      Script: {instanceID: 13562}
     - Class: 114
-      Script: {instanceID: 13618}
+      Script: {instanceID: 13636}
     - Class: 114
-      Script: {instanceID: 13632}
+      Script: {instanceID: 13650}
     - Class: 114
-      Script: {instanceID: 13644}
+      Script: {instanceID: 13662}
     - Class: 114
-      Script: {instanceID: 13658}
+      Script: {instanceID: 13676}
     - Class: 114
-      Script: {instanceID: 13832}
+      Script: {instanceID: 13858}
     - Class: 114
-      Script: {instanceID: 13886}
+      Script: {instanceID: 13912}
     - Class: 114
-      Script: {instanceID: 13916}
+      Script: {instanceID: 13944}
     - Class: 114
-      Script: {instanceID: 13958}
+      Script: {instanceID: 13986}
     - Class: 114
-      Script: {instanceID: 13998}
+      Script: {instanceID: 14026}
     - Class: 114
-      Script: {instanceID: 14032}
+      Script: {instanceID: 14060}
     - Class: 114
-      Script: {instanceID: 14056}
+      Script: {instanceID: 14084}
     - Class: 114
-      Script: {instanceID: 14176}
+      Script: {instanceID: 14204}
     - Class: 114
-      Script: {instanceID: 14190}
+      Script: {instanceID: 14218}
     - Class: 114
-      Script: {instanceID: 14308}
+      Script: {instanceID: 14336}
     - Class: 114
-      Script: {instanceID: 14330}
+      Script: {instanceID: 14358}
     - Class: 114
-      Script: {instanceID: 14370}
+      Script: {instanceID: 14398}
     - Class: 114
-      Script: {instanceID: 14396}
+      Script: {instanceID: 14424}
     - Class: 114
-      Script: {instanceID: 14472}
+      Script: {instanceID: 14500}
     - Class: 114
-      Script: {instanceID: 14494}
+      Script: {instanceID: 14522}
     - Class: 114
-      Script: {instanceID: 14508}
+      Script: {instanceID: 14536}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -490,7 +488,7 @@ ScriptsOnlyBuild:
     className: VoxelEditor
   - hash:
       serializedVersion: 2
-      Hash: 14deeeeb12f6518c3741f7a5b23d2af4
+      Hash: 3c57f70b32da4905bf335dd21d304d65
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PointCloudManager
@@ -956,7 +954,13 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Chunk
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FrameCounter
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/micha/OneDrive/Documents/GitHub/AR-Experimentation/APK/Test.apk
+  playerPath: C:/Users/micha/OneDrive/Documents/GitHub/ARVoxelEngineUnity/APK/ARVoxelEngine.apk

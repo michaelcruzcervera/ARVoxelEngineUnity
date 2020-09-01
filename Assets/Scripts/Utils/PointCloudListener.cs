@@ -11,8 +11,6 @@ public class PointCloudListener : MonoBehaviour
 
     bool recording = false;
 
-    float scale = 30;
-
     private List<float3> allPoints = new List<float3>();
 
     private void OnEnable()
@@ -67,7 +65,7 @@ public class PointCloudListener : MonoBehaviour
         aRPointCloudManager.enabled = false;
     }
 
-    public float3[] GetPoints()
+    public float3[] GetPoints(float scale)
     {
         float3[] points = new float3[allPoints.Count];
         for (int i = 0; i < allPoints.Count; i++)

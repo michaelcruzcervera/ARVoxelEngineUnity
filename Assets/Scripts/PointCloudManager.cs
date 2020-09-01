@@ -9,6 +9,7 @@ using KNN;
 using KNN.Jobs;
 using KNN.Internal;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
 
 public class PointCloudManager : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class PointCloudManager : MonoBehaviour
 
     AROcclusionManager aROcclusionManager;
 
+    [SerializeField]
+    Slider scaleSlider;
+    public int scale = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +54,17 @@ public class PointCloudManager : MonoBehaviour
         {
             LoadPointCloud();
         }
+        aRPlaneManager.gameObject.transform.localScale = new Vector3(scale, scale, scale);
+    }
 
+    public void SetScale()
+    {
+        int newScale = (int) scaleSlider.value;
+        if ( newScale > 0)
+        {
+            scale = newScale;
+            aRPlaneManager.gameObject.transform.localScale = new Vector3(scale, scale, scale);
+        }
     }
 
     public void LoadPointCloud()
@@ -64,7 +78,7 @@ public class PointCloudManager : MonoBehaviour
         }
         else
         {
-            pointCloud = pointCloudListener.GetPoints();
+            pointCloud = pointCloudListener.GetPoints(scale);
         }
 
 

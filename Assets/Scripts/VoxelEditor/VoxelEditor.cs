@@ -35,6 +35,7 @@ public class VoxelEditor : MonoBehaviour
         if (!removing)
         {
             adding = true;
+            Debug.Log("Start");
         }
     }
     public void EndAdding()
@@ -48,12 +49,14 @@ public class VoxelEditor : MonoBehaviour
         if (!adding)
         {
             removing = true;
+            Debug.Log("Start");
         }
 
     }
 
     public void EndRemoving()
     {
+        Debug.Log("Stop");
         removing = false;
     }
 

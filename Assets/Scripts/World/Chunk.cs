@@ -163,9 +163,5 @@ public class Chunk : MonoBehaviour
         return false;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(position, 1);
-    }
     //export
 }

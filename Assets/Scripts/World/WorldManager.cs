@@ -98,8 +98,11 @@ public class WorldManager : MonoBehaviour
             leafs = new List<Chunk>();
 
             SubdivideChunks(world.root);
-
-            aRSessionOrigin.MakeContentAppearAt(gameObject.transform,new Vector3(0,0,0), gameObject.transform.rotation);
+            if (aRSessionOrigin != null)
+            {
+                aRSessionOrigin.MakeContentAppearAt(gameObject.transform, new Vector3(0, 0, 0), gameObject.transform.rotation);
+            }
+            
 
         }
         
@@ -108,6 +111,8 @@ public class WorldManager : MonoBehaviour
 
     public void DestroyWorld()
     {
+
+        
         if (leafs != null)
         {
             for (int i = 0; i < leafs.Count; i++)
@@ -122,14 +127,11 @@ public class WorldManager : MonoBehaviour
             leafs.Clear();
             leafs = null;
         }
+
         if (world != null)
         {
             world = null;
-            GameObject[] chunks = GameObject.FindGameObjectsWithTag("Terrain");
-            for (int i = 0; i < chunks.Length; i++)
-            {
-                Destroy(chunks[i]);
-            }
+            
         }
     }
 
@@ -190,6 +192,7 @@ public class WorldManager : MonoBehaviour
                     {
                         Destroy(oldChunks[i].gameObject);
                     }
+                    leafs.RemoveAt(leafs.BinarySearch(oldChunks[i]));
 
                 }
 
@@ -210,8 +213,9 @@ public class WorldManager : MonoBehaviour
                         {
                             oldChunks[0] = node.chunk;
                         }
-
-                        node.chunk = CreateChunk(node.position, node.size, chunkResolution);
+                        Chunk temp = CreateChunk(node.position, node.size, chunkResolution);
+                        node.chunk = temp;
+                        leafs.Add(temp);
                         meshGenerator.StartMeshGeneration(node.chunk);
 
                         for (int i = 0; i < oldChunks.Length; i++)
@@ -220,6 +224,7 @@ public class WorldManager : MonoBehaviour
                             {
                                 Destroy(oldChunks[i].gameObject);
                             }
+                            leafs.RemoveAt(leafs.BinarySearch(oldChunks[i]));
 
                         }
 
